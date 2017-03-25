@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- cdma oneWay、twoWay、resembleOneWay汇总， start -->
+	<bean name="solution400001" class="cn.uway.framework.solution.GatherSolution" scope="prototype">
+		<property name="accessor" ref="dbAccessor" />
+		<property name="parser" ref="onewayParser" />
+	</bean>
+	<!-- oneWay、twoWay、resembleOneWay汇总， end -->
+
+	<!-- 数据迁移汇总solution　-->
+	<bean name="solution400002" class="cn.uway.framework.solution.GatherSolution" scope="prototype">
+		<property name="accessor" ref="dbAccessor" />
+		<property name="parser" ref="DataJoinParser" />
+	</bean>
+	
+	<!-- LTE oneWay toway 邻区变化分析 -->
+	<bean name="solution400003" class="cn.uway.framework.solution.GatherSolution" scope="prototype">
+		<property name="accessor" ref="dbAccessor" />
+		<property name="parser" ref="LteNeiOnewayParser" />
+	</bean>
+	
+	<!-- 邻区变化分析solution　-->
+	<bean name="solution410100" class="cn.uway.framework.solution.GatherSolution" scope="prototype">
+		<property name="accessor" ref="dbAccessor" />
+		<property name="parser" ref="NeiChangeAnalysisParser" />
+		<property name="exportDefinition" ref="nei_change_anaylysis_exportDefinition" />
+	</bean>
+	
+	<!-- 邻区变化分析输出模板路径 -->
+	<bean name="nei_change_anaylysis_exportDefinition" class="cn.uway.framework.warehouse.exporter.ExportDefinition"
+		init-method="parseExportTemplet" scope="prototype">
+		<constructor-arg name="exportDefinitionXmlPath">
+			<list value-type="java.lang.String">
+				<value>./template/export/summary/nei_change_analysis_export.xml</value>
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 多层邻区层次汇总solution -->
+	<bean name="solution410101" class="cn.uway.framework.solution.GatherSolution" scope="prototype">
+		<property name="accessor" ref="dbAccessor" />
+		<property name="parser" ref="MultiNeiLayerSummaryParser" />
+		<property name="exportDefinition" ref="multi_nei_layer_summary_exportDefinition" />
+	</bean>
+	
+	<!-- 多层邻区层次汇总输出模板路径 -->
+	<bean name="multi_nei_layer_summary_exportDefinition" class="cn.uway.framework.warehouse.exporter.ExportDefinition"
+		init-method="parseExportTemplet" scope="prototype">
+		<constructor-arg name="exportDefinitionXmlPath">
+			<list value-type="java.lang.String">
+				<value>./template/export/summary/multi_nei_layer_summary_export.xml</value>
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 1-2层邻区层次汇总solution -->
+	<bean name="solution410102" class="cn.uway.framework.solution.GatherSolution" scope="prototype">
+		<property name="accessor" ref="dbAccessor" />
+		<property name="parser" ref="NeiOneTwoLayerSummaryParser" />
+		<property name="exportDefinition" ref="onetwo_nei_layer_summary_exportDefinition" />
+	</bean>
+	
+	<bean name="solution500000" class="cn.uway.framework.solution.GatherSolution" scope="prototype">
+		<property name="accessor" ref="dbAccessor" />
+		<property name="parser" ref="lteHDSummaryParser" />
+		<property name="exportDefinition" ref="lte_HD_Summary_exportDefinition" />
+	</bean>
+	
+	<bean name="solution888888889" class="cn.uway.framework.solution.GatherSolution" scope="prototype">
+		<property name="accessor" ref="dbAccessor" />
+		<property name="parser" ref="summaryDbParser" />
+	</bean>
+	
+	<bean name="solution888888810" class="cn.uway.framework.solution.GatherSolution" scope="prototype">
+		<property name="accessor" ref="dbAccessor" />
+		<property name="parser" ref="labelToImpalasummaryDbParser" />
+	</bean>
+	
+	<!-- 1-2层邻区层次汇总输出模板路径 -->
+	<bean name="lte_HD_Summary_exportDefinition" class="cn.uway.framework.warehouse.exporter.ExportDefinition"
+		init-method="parseExportTemplet" scope="prototype">
+		<constructor-arg name="exportDefinitionXmlPath">
+			<list value-type="java.lang.String">
+				<value>./template/export/summary/mod_lhd_user_intermediate_export.xml</value>
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 1-2层邻区层次汇总输出模板路径 -->
+	<bean name="onetwo_nei_layer_summary_exportDefinition" class="cn.uway.framework.warehouse.exporter.ExportDefinition"
+		init-method="parseExportTemplet" scope="prototype">
+		<constructor-arg name="exportDefinitionXmlPath">
+			<list value-type="java.lang.String">
+				<value>./template/export/summary/onetwo_nei_layer_summary_export.xml</value>
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	
+	
+	
+	
+	
+	<!--
+	<bean name="mr_wcdma_export" class="cn.uway.framework.warehouse.exporter.ExportDefinition"
+		init-method="parseExportTemplet" scope="prototype">
+		<constructor-arg name="exportDefinitionXmlPath">
+			<list value-type="java.lang.String">
+				<value>./template/export/wcdma/mr_export.xml</value>
+			</list>
+		</constructor-arg>
+	</bean>
+	-->
+		
+	<bean name="HiveDBParser" class="cn.uway.framework.parser.AdaptFileExportDBParser" scope="prototype"></bean>
+	<!-- hive test solution -->
+	<bean name="labelDBToHbaseParser" class="cn.uway.summary.lte.LteLabelParser" scope="prototype">
+		<property name="cityIDList">    
+	      <list>
+	         <value >517</value>
+			  <value>512</value>
+			  <value>510</value>
+			<value>513</value>
+			<value>519</value>
+			<value>511</value>
+			<value>516</value>
+			<value>514</value>
+			<value>523</value>
+			<value>515</value>
+			<value>518</value>
+			<value>527</value>
+			<value>25</value>
+	      </list>
+	    </property>
+	    <property name="sm" ref="switchManager"/>
+	</bean>
+	
+	<bean name="HiveH2ODBParser" class="cn.uway.summary.lte.LteLabelToOracleParser" scope="prototype">
+	</bean>
+	
+	<bean name="solution1601150201" class="cn.uway.framework.solution.GatherSolution"
+		scope="prototype">
+		<property name="accessor" ref="dbAccessor"/>
+		<property name="parser" ref="HiveDBParser"/>
+	</bean>
+	
+	<bean name="solution1601150202" class="cn.uway.framework.solution.GatherSolution"
+		scope="prototype">
+		<property name="accessor" ref="dbAccessor"/>
+		<property name="parser" ref="HiveH2ODBParser"/>
+	</bean>
+	
+	<!-- 标签库 oracle to hbase-->
+	<bean name="solution1601150203" class="cn.uway.framework.solution.GatherSolution"
+		scope="prototype">
+		<property name="accessor" ref="dbAccessor"/>
+		<property name="parser" ref="labelDBToHbaseParser"/>
+	</bean>
+	
+	<!-- hive test solution-->
+	
+	<bean name="solution200001" class="cn.uway.framework.solution.GatherSolution" scope="prototype">
+		<property name="accessor" ref="dbAccessor" />
+		<property name="parser" ref="LteHDSimpleParser" />
+		<property name="exportDefinition" ref="lte_HD_Summary_exportDefinition" />
+	</bean>
+	
+	<bean name="solution200002" class="cn.uway.framework.solution.GatherSolution" scope="prototype">
+		<property name="accessor" ref="dbAccessor" />
+		<property name="parser" ref="LteHDSimpleLabelParser" />
+		<property name="exportDefinition" ref="lte_HD_Summary_exportDefinition" />
+	</bean>
+	
+	<bean name="solution200003" class="cn.uway.framework.solution.GatherSolution" scope="prototype">
+		<property name="accessor" ref="dbAccessor" />
+		<property name="parser" ref="MergeParquetParser" />
+		<property name="exportDefinition" ref="lte_HD_Summary_exportDefinition" />
+	</bean>
+	
+	<bean name="empty_exportDefinition" class="cn.uway.framework.warehouse.exporter.ExportDefinition"
+		scope="prototype">
+	</bean>
+	
+    <!--imsi csv file -->
+	<bean name="solution200020" class="cn.uway.framework.solution.GatherSolution" scope="prototype">
+		<property name="accessor" ref="ftpAccessor" />
+		<property name="parser" ref="imsiDataParser" />
+	</bean>
+	
+	<bean name="solution200013" class="cn.uway.framework.solution.GatherSolution" scope="prototype">
+		<property name="accessor" ref="ftpAccessor" />
+		<property name="parser" ref="csv_public_parser" />
+		<property name="adaptiveStreamJobAvaliable" value="true" />
+	</bean>
+</beans>

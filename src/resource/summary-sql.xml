@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- lte话单汇总用户配置数据(数据库地址语句) -->
+	<bean name="sqlForLteHdSummaryUserConfigDB" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ 
+			select * from igp_cfg_connection co,IGP_CFG_CONNECTION_DB db where co.CONN_RELATE_ID=db.ID and co.id=${system.summary.user_config_db_id}
+			 ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<bean name="sqlForLteHdSummaryImsiProvinceConfigDB" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ 
+			select * from igp_cfg_connection co,IGP_CFG_CONNECTION_DB db where co.CONN_RELATE_ID=db.ID and co.id=${system.summary.imsiProvince_config_db_id}
+			 ]]></value>
+		</constructor-arg>
+	</bean>
+	
+</beans>

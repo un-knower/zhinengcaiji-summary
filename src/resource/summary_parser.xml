@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<!-- oneWay、twoWay、resembleOneWay汇总，start-->
+	<bean name="onewayParser" class="cn.uway.summary.cdma.neway.OnewayParser" scope="prototype"/>
+	<!-- oneWay、twoWay、resembleOneWay汇总，end-->
+	
+	
+	<bean name="DataJoinParser" class="cn.uway.summary.DataJoin.DataJoinParser" scope="prototype"/>
+	
+	<!-- lte 邻区变化分析 oneWay twoWay汇总 -->	
+	<bean name="LteNeiOnewayParser" class="cn.uway.summary.lte.LteNeiOnewayParser" scope="prototype">
+		<property name="templates">
+			<value>./template/parser/summary/lte_oneWay_twoWay_nei_summary_parse.xml</value>
+		</property>
+	</bean>
+	
+	<bean name="NeiChangeAnalysisParser" class="cn.uway.summary.neiChangeAnalysis.NeiChangeAnalysisParser" scope="prototype">
+		<property name="templates">
+			<value>./template/parser/summary/nei_change_analysis_parse.xml</value>
+		</property>
+	</bean>
+	
+	<bean name="MultiNeiLayerSummaryParser" class="cn.uway.summary.multiNeiLayerSummary.MultiNeiLayerSummaryParser" scope="prototype">
+		<property name="templates">
+			<value>./template/parser/summary/multi_nei_layer_summary_parse.xml</value>
+		</property>
+	</bean>	
+
+	<bean name="NeiOneTwoLayerSummaryParser" class="cn.uway.summary.neiOneTwoLayerSummary.NeiOneTwoLayerSummaryParser" scope="prototype">
+		<property name="templates">
+			<value>./template/parser/summary/onetwo_nei_layer_summary_parse.xml</value>
+		</property>
+	</bean>		
+	
+	<bean name="lteHDSummaryParser" class="cn.uway.summary.lte.LteHDSummaryParser" scope="prototype">
+		<property name="templates">
+			<value>./template/parser/summary/mod_lhd_user_intermediate.xml</value>
+		</property>
+	</bean>
+	<bean name="labelToImpalasummaryDbParser" class="cn.uway.summary.lte.LteLabelToImpalaSummaryParser" scope="prototype">
+	<property name="sm" ref="switchManager"/>
+		<property name="cityIDList">    
+	      <list>
+	         <value >517</value>
+			  <value>512</value>
+			  <value>510</value>
+			<value>513</value>
+			<value>519</value>
+			<value>511</value>
+			<value>516</value>
+			<value>514</value>
+			<value>523</value>
+			<value>515</value>
+			<value>518</value>
+			<value>527</value>
+			<value>25</value>
+	      </list>
+	    </property>
+	    
+	</bean>
+	<bean name="summaryDbParser" class="cn.uway.summary.lte.SummaryDBParser" scope="prototype"/>
+	<bean name="LteHDSimpleParser" class="cn.uway.summary.lte.LteHDSimpleParser" scope="prototype"/>
+	<bean name="LteHDSimpleLabelParser" class="cn.uway.summary.lte.LteHDSimpleLabelParser" scope="prototype"/>
+	<bean name="imsiDataParser" class="cn.uway.summary.lte.ImsiDataParser" scope="prototype"/>
+	<bean name="MergeParquetParser" class="cn.uway.summary.lte.MergeParquetParser" scope="prototype"/>
+</beans>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!--
+	<bean name="jdbcConnection" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="testOnBorrow" value="true" />
+		<property name="validationQuery" value="select sysdate from dual" />
+		<property name="maxActive" value="${system.db.maxConnection}" />
+		<property name="maxIdle" value="${system.db.maxConnection}" />
+		<property name="maxWait" value="1200000" />
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@${system.db.oracle.ip}:${system.db.oracle.port}:${system.db.oracle.dbName}" />
+		<property name="username" value="${system.db.oracle.username}" />
+		<property name="password" value="${system.db.oracle.password}" />
+	</bean>
+	-->
+	<bean name="externalLoader" class="cn.uway.summary.extradatacache.SummaryExternalDatasLoader" />
+	
+	<bean name="summaryCacheMaxSizeMB" class="java.lang.String" lazy-init="true">
+		<constructor-arg type="java.lang.String">
+			<value>${system.summary.cacheMaxSizeMB}</value>
+		</constructor-arg>
+	</bean>
+	<bean name="lteHdSummaryConfigDAO" class="cn.uway.summary.lte.dao.LteHdSummaryConfigDAO">
+		<property name="datasource" ref="datasource" />
+		<property name="sqlForLteHdSummaryUserConfigDB" ref="sqlForLteHdSummaryUserConfigDB" />
+	</bean>
+	
+	<bean name="lteHdSummaryImsiProvinceConfigDAO" class="cn.uway.summary.lte.dao.LteHdImsiProvinceConfigDao">
+		<property name="datasource" ref="datasource" />
+		<property name="sqlForLteHdSummaryImsiProvinceConfigDB" ref="sqlForLteHdSummaryImsiProvinceConfigDB" />
+	</bean>
+	
+	<bean name="summaryConfig" class="cn.uway.summary.lte.context.SummaryConfigMgr" init-method="loadDBConfig">
+		<property name="lteHdSummaryConfigDAO" ref="lteHdSummaryConfigDAO" />
+		<property name="lteHdSummaryImsiProvinceConfigDAO" ref="lteHdSummaryImsiProvinceConfigDAO" />
+		<property name="imsiProvinceSwitch" value="${system.summary.imsiProvince_config_db_id}" />
+	</bean>
+	
+	
+	<!-- PeriodCacheSwitch管理 -->
+	<bean name="switchManager" class="cn.uway.summary.extradatacache.CacheSwitchManager" lazy-init="true">
+		<property name="cacheNames" value="${system.periodCache}" />
+	</bean>
+	
+	
+	<bean name="HbaseConfig" class="cn.uway.framework.warehouse.exporter.hbaseExporterConf.HBaseExportDBConf">
+		<constructor-arg type="java.lang.String">
+			<value>./conf/summary_export_table_hbase_conf.xml</value>
+		</constructor-arg>
+	</bean>
+</beans>
